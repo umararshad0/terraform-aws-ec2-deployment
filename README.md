@@ -56,7 +56,7 @@ When the environment is no longer needed, review the resources and use `terrafor
 
 ## Repository
 
-[View the project on GitHub](https://github.com/UmarArshad3/terraform-aws-ec2-deployment)
+[View the project on GitHub](https://github.com/umararshad0/terraform-aws-ec2-deployment)
 
 *This is a learning and portfolio project. Resource availability, AWS charges, and configuration requirements may vary by account and region.*
 ## Architecture
