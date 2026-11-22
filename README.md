@@ -1,10 +1,40 @@
 # AWS EC2 Web Server Deployment with Terraform
 
-## Overview
+A Terraform configuration that creates an Ubuntu EC2 web server and its security group in an existing AWS subnet.
 
-This project provisions an Ubuntu EC2 web server and security group with Terraform, then serves a simple website through Apache. It demonstrates infrastructure as code, AWS networking, Linux administration, and deployment review.
+## Problem & Solution
 
-## Architecture
+- **Problem:** Provisioning a simple web server manually is difficult to reproduce and review consistently.
+- **Approach:** Terraform defines the EC2 instance, encrypted root volume, and restricted SSH plus public HTTP ingress.
+- **Outcome:** The plan and outputs make the server setup reviewable while leaving VPC networking as an explicit prerequisite.
+
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center" valign="top">
+      <img src="docs/screenshots/live-website.png" alt="Website running on AWS EC2" width="420">
+      <br><sub>Website running on AWS EC2</sub>
+    </td>
+    <td align="center" valign="top">
+      <img src="docs/screenshots/terraform-output.png" alt="Terraform output showing deployed infrastructure" width="420">
+      <br><sub>Terraform output showing deployed infrastructure</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <img src="docs/screenshots/terraform-running.png" alt="AWS EC2 instance details" width="420">
+      <br><sub>AWS EC2 instance details</sub>
+    </td>
+    <td></td>
+  </tr>
+</table>
+
+## Architecture Diagram
+
+![AWS EC2 Terraform Architecture](docs/architecture.png)
+
+### Architecture Notes
 
 - AWS provider in a configurable region
 - Ubuntu EC2 instance (`t3.micro`)
@@ -12,9 +42,16 @@ This project provisions an Ubuntu EC2 web server and security group with Terrafo
 - Security group allowing HTTP from the internet and SSH from one trusted IPv4 address
 - 8 GB encrypted `gp3` root volume
 
-![AWS EC2 Terraform Architecture](docs/architecture.png)
+## Project Details
 
-## Configure
+### Overview
+
+
+This project provisions an Ubuntu EC2 web server and security group with Terraform, then serves a simple website through Apache. It demonstrates infrastructure as code, AWS networking, Linux administration, and deployment review.
+
+
+### Configure
+
 
 1. Install Terraform and configure AWS credentials with appropriately scoped IAM permissions.
 2. Copy `terraform.tfvars.example` to `terraform.tfvars`.
@@ -23,7 +60,9 @@ This project provisions an Ubuntu EC2 web server and security group with Terrafo
 
 Terraform creates the EC2 instance and its security group. The VPC, subnet, Internet Gateway, route table, and Apache installation are prerequisites or manual deployment steps; they are not provisioned by this configuration.
 
-## Deploy
+
+### Deploy
+
 
 ```sh
 terraform init
@@ -37,22 +76,24 @@ Review the plan before applying. After deployment, use `terraform output` for th
 
 SSH ingress validation requires one trusted `/32` address. HTTP is open to `0.0.0.0/0` for the public website. Use a trusted TLS certificate and HTTPS before handling real traffic.
 
-## Screenshots
 
-![Website running on AWS EC2](docs/screenshots/live-website.png)
+### Troubleshooting experience
 
-![Terraform output showing deployed infrastructure](docs/screenshots/terraform-output.png)
-
-![AWS EC2 instance details](docs/screenshots/terraform-running.png)
-
-## Troubleshooting experience
 
 During deployment, SSH connectivity failed because the VPC's default route referenced a detached Internet Gateway. Attaching the existing Internet Gateway restored the route and SSH connectivity.
 
-## Cleanup
+
+### Cleanup
+
 
 When the environment is no longer needed, run `terraform plan -destroy`, review the resources carefully, and run `terraform destroy` only after confirming the plan. AWS resource availability, pricing, AMIs, subnet IDs, and permissions vary by region and account.
 
-## Repository
+
+### Repository
+
 
 [View the project on GitHub](https://github.com/umararshad0/terraform-aws-ec2-deployment)
+
+## Author
+
+**Umar Arshad** · [GitHub](https://github.com/umararshad0)
