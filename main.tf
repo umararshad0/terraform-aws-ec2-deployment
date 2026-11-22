@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-north-1"
+  region = var.aws_region
 }
 resource "aws_security_group" "web" {
   name        = "terraform-learning-web-sg"
@@ -21,7 +21,7 @@ resource "aws_security_group" "web" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["139.135.32.134/32"]
+    cidr_blocks = [var.ssh_cidr]
   }
   ingress {
     description = "HTTP"
@@ -48,11 +48,11 @@ output "security_group_id" {
   value       = aws_security_group.web.id
 }
 resource "aws_instance" "web" {
-  ami                         = "ami-09d835910a77f135c"
+  ami                         = var.ami_id
   instance_type               = "t3.micro"
-  subnet_id                   = "subnet-0cdc0be2ca7f3c983"
+  subnet_id                   = var.subnet_id
   vpc_security_group_ids      = [aws_security_group.web.id]
-  key_name                    = "terraform-learning-key"
+  key_name                    = var.key_name
   associate_public_ip_address = true
 
   root_block_device {

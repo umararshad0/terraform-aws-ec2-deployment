@@ -1,0 +1,5 @@
+aws_region = "eu-north-1"
+ssh_cidr   = "203.0.113.10/32"
+ami_id     = "ami-0123456789abcdef0"
+subnet_id  = "subnet-0123456789abcdef0"
+key_name   = "replace-with-existing-key-pair"

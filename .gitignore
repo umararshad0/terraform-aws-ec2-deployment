@@ -17,3 +17,7 @@ terraform.tfstate.backup
 crash.log
 crash.*.log
 .DS_Store
+
+# Local Terraform input values
+*.tfvars
+!terraform.tfvars.example
