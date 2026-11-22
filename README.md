@@ -8,7 +8,7 @@ This project provisions an Ubuntu EC2 web server and security group with Terrafo
 
 - AWS provider in a configurable region
 - Ubuntu EC2 instance (`t3.micro`)
-- Public subnet with an Internet Gateway and route table
+- Existing public subnet with a route to an Internet Gateway
 - Security group allowing HTTP from the internet and SSH from one trusted IPv4 address
 - 8 GB encrypted `gp3` root volume
 
@@ -20,6 +20,8 @@ This project provisions an Ubuntu EC2 web server and security group with Terrafo
 2. Copy `terraform.tfvars.example` to `terraform.tfvars`.
 3. Set the region, trusted SSH address as a `/32`, a valid AMI and subnet in that region, and an existing EC2 key-pair name.
 4. Keep `terraform.tfvars`, private keys, AWS credentials, and Terraform state files out of Git. The local `.gitignore` excludes them.
+
+Terraform creates the EC2 instance and its security group. The VPC, subnet, Internet Gateway, route table, and Apache installation are prerequisites or manual deployment steps; they are not provisioned by this configuration.
 
 ## Deploy
 
